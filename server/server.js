@@ -52,3 +52,15 @@ app.get(`/callback`, async function(req, res) {
   const json = await data.json();
   res.send(json)
 })
+
+async function getPlaylist(access_token, playlist_id) {
+  const data = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${access_token}`
+    }
+  });
+  const json = await data.json();
+  return json
+  // console.log(json)
+}
