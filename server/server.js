@@ -26,14 +26,12 @@ app.get('/login', function(req, res) {
   const state = generateRandomString(16);
   const scope = 'user-read-private user-read-email';
   const querystring = `client_id=${client_id}&scope=${scope}&response_type=code&redirect_uri=${redirect_uri}&state=${state}`
-  // console.log(querystring)
   res.redirect(`https://accounts.spotify.com/authorize?${querystring}`)
 });
 
 app.get(`/callback`, async function(req, res) {
   // we are accessing the querystring (not a parameter) - req.query returns an object of the key/value after the route
   const code = req.query.code
-  // console.log(`base64: ${client_id_secret_base64}`)
   const access_token = await getAccessToken(code, client_id_secret_base64)
   const playlistSongs = await getPlaylistItems(access_token, master_spotify_playlist_id)
   res.send(playlistSongs)
@@ -64,7 +62,6 @@ async function getPlaylist(access_token, playlist_id) {
   });
   const json = await data.json();
   return json
-  // console.log(json)
 }
 
 async function getPlaylistItems(access_token, playlist_id) {
@@ -76,7 +73,6 @@ async function getPlaylistItems(access_token, playlist_id) {
   });
   const json = await data.json();
   return json
-  // console.log(json)
 }
 
 // Utility Functions
