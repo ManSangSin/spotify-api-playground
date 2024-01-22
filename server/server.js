@@ -64,3 +64,15 @@ async function getPlaylist(access_token, playlist_id) {
   return json
   // console.log(json)
 }
+
+async function getPlaylistItems(access_token, playlist_id) {
+  const data = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${access_token}`
+    }
+  });
+  const json = await data.json();
+  return json
+  // console.log(json)
+}
