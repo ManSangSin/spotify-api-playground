@@ -23,6 +23,7 @@ const master_spotify_playlist_id = "2RoQkVgIhgQmCZadrMoDLd";
 const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
 
 app.get('/login', function(req, res) {
+  // state optional but recommended, used very when a user is redirected back to the website that its not intercepted (state sent should match state returned)
   const state = generateRandomString(16);
   const scope = 'user-read-private user-read-email';
   const querystring = `client_id=${client_id}&scope=${scope}&response_type=code&redirect_uri=${redirect_uri}&state=${state}`
@@ -30,7 +31,9 @@ app.get('/login', function(req, res) {
 });
 
 app.get(`/callback`, async function(req, res) {
-  // we are accessing the querystring (not a parameter) - req.query returns an object of the key/value after the route
+  // code is returned when a user logins in to spotify and gives consent to access their data (for this project, only the master account is required to login)
+  // code is returned in the query string when user is redirected back to our website after logging in/consenting
+  // to access the query string (not a parameter) - use req.query which returns an object of all the key/value pairs in the query string
   const code = req.query.code
   const access_token = await getAccessToken(code, client_id_secret_base64)
   const playlistSongs = await getPlaylistItems(access_token, master_spotify_playlist_id)
