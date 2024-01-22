@@ -24,18 +24,11 @@ const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
 
 app.get('/login', function(req, res) {
 
-  // var state = "qwertyuiopasdfgh";
-  // var scope = 'user-read-private user-read-email';
-  const querystring = `client_id=${client_id}&response_type=code&redirect_uri=${redirect_uri}`
+  const state = generateRandomString(16);
+  const scope = 'user-read-private user-read-email';
+  const querystring = `client_id=${client_id}&scope=${scope}&response_type=code&redirect_uri=${redirect_uri}&state=${state}`
   // console.log(querystring)
   res.redirect(`https://accounts.spotify.com/authorize?${querystring}`)
-    // .stringify({
-    //   response_type: 'code',
-    //   client_id: client_id,
-    //   scope: scope,
-    //   redirect_uri: redirect_uri,
-    //   state: state
-    // })
 });
 
 app.get(`/callback`, async function(req, res) {
