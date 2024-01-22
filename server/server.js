@@ -41,6 +41,12 @@ app.get(`/callback`, async function(req, res) {
   // Spotify API requires client id/secret to be encoded with base64
   const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
   // console.log(`base64: ${client_id_secret_base64}`)
+  const access_token = await getAccessToken(code, client_id_secret_base64)
+  const playlistSongs = await getPlaylistItems(access_token, "2RoQkVgIhgQmCZadrMoDLd")
+  res.send(playlistSongs)
+})
+
+async function getAccessToken(code, client_id_secret_base64) {
   const data = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
@@ -50,9 +56,8 @@ app.get(`/callback`, async function(req, res) {
     body: `code=${code}&grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`
   });
   const json = await data.json();
-  const playlistSongs = await getPlaylistItems(json.access_token, "2RoQkVgIhgQmCZadrMoDLd")
-  res.send(playlistSongs)
-})
+  return json.access_token
+}
 
 async function getPlaylist(access_token, playlist_id) {
   const data = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}`, {
