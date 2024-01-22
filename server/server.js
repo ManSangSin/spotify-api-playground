@@ -18,6 +18,7 @@ app.get("/", function(req,res) {
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const redirect_uri = 'http://localhost:3001/callback';
+const master_spotify_playlist_id = "2RoQkVgIhgQmCZadrMoDLd";
 
 app.get('/login', function(req, res) {
 
@@ -42,7 +43,7 @@ app.get(`/callback`, async function(req, res) {
   const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
   // console.log(`base64: ${client_id_secret_base64}`)
   const access_token = await getAccessToken(code, client_id_secret_base64)
-  const playlistSongs = await getPlaylistItems(access_token, "2RoQkVgIhgQmCZadrMoDLd")
+  const playlistSongs = await getPlaylistItems(access_token, master_spotify_playlist_id)
   res.send(playlistSongs)
 })
 
