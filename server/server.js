@@ -60,6 +60,16 @@ async function getAccessToken(code, client_id_secret_base64) {
   return json.access_token
 }
 
+function generateRandomString(stringLength) {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let generatedString = "";
+  for (let i = 0; i < stringLength; i++) {
+    const randomCharacter = characters[Math.floor(Math.random() * characters.length)]
+    generatedString += randomCharacter
+  }
+  return generatedString;
+}
+
 async function getPlaylist(access_token, playlist_id) {
   const data = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}`, {
     method: "GET",
