@@ -34,3 +34,21 @@ app.get('/login', function(req, res) {
     //   state: state
     // })
 });
+
+app.get(`/callback`, async function(req, res) {
+  // we are accessing the querystring (not a parameter) - req.query returns an object of the key/value after the route
+  const code = req.query.code
+  // Spotify API requires client id/secret to be encoded with base64
+  const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
+  // console.log(`base64: ${client_id_secret_base64}`)
+  const data = await fetch("https://accounts.spotify.com/api/token", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": `Basic ${client_id_secret_base64}`
+    },
+    body: `code=${code}&grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`
+  });
+  const json = await data.json();
+  res.send(json)
+})
