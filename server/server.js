@@ -19,6 +19,8 @@ const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const redirect_uri = 'http://localhost:3001/callback';
 const master_spotify_playlist_id = "2RoQkVgIhgQmCZadrMoDLd";
+// Spotify API requires client id/secret to be encoded with base64 when requesting for access token
+const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
 
 app.get('/login', function(req, res) {
 
@@ -39,8 +41,6 @@ app.get('/login', function(req, res) {
 app.get(`/callback`, async function(req, res) {
   // we are accessing the querystring (not a parameter) - req.query returns an object of the key/value after the route
   const code = req.query.code
-  // Spotify API requires client id/secret to be encoded with base64
-  const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
   // console.log(`base64: ${client_id_secret_base64}`)
   const access_token = await getAccessToken(code, client_id_secret_base64)
   const playlistSongs = await getPlaylistItems(access_token, master_spotify_playlist_id)
