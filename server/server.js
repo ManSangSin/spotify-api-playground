@@ -23,7 +23,6 @@ const master_spotify_playlist_id = "2RoQkVgIhgQmCZadrMoDLd";
 const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
 
 app.get('/login', function(req, res) {
-
   const state = generateRandomString(16);
   const scope = 'user-read-private user-read-email';
   const querystring = `client_id=${client_id}&scope=${scope}&response_type=code&redirect_uri=${redirect_uri}&state=${state}`
@@ -40,6 +39,8 @@ app.get(`/callback`, async function(req, res) {
   res.send(playlistSongs)
 })
 
+// Fetch call functions to spotify API
+
 async function getAccessToken(code, client_id_secret_base64) {
   const data = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
@@ -53,15 +54,6 @@ async function getAccessToken(code, client_id_secret_base64) {
   return json.access_token
 }
 
-function generateRandomString(stringLength) {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let generatedString = "";
-  for (let i = 0; i < stringLength; i++) {
-    const randomCharacter = characters[Math.floor(Math.random() * characters.length)]
-    generatedString += randomCharacter
-  }
-  return generatedString;
-}
 
 async function getPlaylist(access_token, playlist_id) {
   const data = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}`, {
@@ -85,4 +77,16 @@ async function getPlaylistItems(access_token, playlist_id) {
   const json = await data.json();
   return json
   // console.log(json)
+}
+
+// Utility Functions
+
+function generateRandomString(stringLength) {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let generatedString = "";
+  for (let i = 0; i < stringLength; i++) {
+    const randomCharacter = characters[Math.floor(Math.random() * characters.length)]
+    generatedString += randomCharacter
+  }
+  return generatedString;
 }
