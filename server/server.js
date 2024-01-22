@@ -50,7 +50,8 @@ app.get(`/callback`, async function(req, res) {
     body: `code=${code}&grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`
   });
   const json = await data.json();
-  res.send(json)
+  const playlistSongs = await getPlaylistItems(json.access_token, "2RoQkVgIhgQmCZadrMoDLd")
+  res.send(playlistSongs)
 })
 
 async function getPlaylist(access_token, playlist_id) {
