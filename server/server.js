@@ -39,6 +39,14 @@ app.get(`/callback`, async function(req, res) {
   const playlistDetails = await getPlaylist(access_token, master_spotify_playlist_id)
   const snapshot_id = (playlistDetails.snapshot_id)
   const tracksArray = (playlistDetails.tracks.items)
+  const deleteSongsURIArray = [];
+  tracksArray.map((track) => {
+    console.log(track.track.uri);
+    const trackObject = {}
+    trackObject.uri = track.track.uri
+    deleteSongsURIArray.push(trackObject);
+  });
+  console.log(deleteSongsURIArray); 
 })
 
 // Fetch call functions to spotify API
