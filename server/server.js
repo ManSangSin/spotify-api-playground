@@ -25,7 +25,7 @@ const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
 app.get('/login', function(req, res) {
   // state optional but recommended, used very when a user is redirected back to the website that its not intercepted (state sent should match state returned)
   const state = generateRandomString(16);
-  const scope = 'user-read-private user-read-email';
+  const scope = 'user-read-private user-read-email playlist-modify-private playlist-modify-public';
   const querystring = `client_id=${client_id}&scope=${scope}&response_type=code&redirect_uri=${redirect_uri}&state=${state}`
   res.redirect(`https://accounts.spotify.com/authorize?${querystring}`)
 });
