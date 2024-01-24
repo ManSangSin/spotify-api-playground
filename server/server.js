@@ -36,8 +36,9 @@ app.get(`/callback`, async function(req, res) {
   // to access the query string (not a parameter) - use req.query which returns an object of all the key/value pairs in the query string
   const code = req.query.code
   const access_token = await getAccessToken(code, client_id_secret_base64)
-  const playlistSongs = await getPlaylistItems(access_token, master_spotify_playlist_id)
-  res.send(playlistSongs)
+  const playlistDetails = await getPlaylist(access_token, master_spotify_playlist_id)
+  const snapshot_id = (playlistDetails.snapshot_id)
+  const tracksArray = (playlistDetails.tracks.items)
 })
 
 // Fetch call functions to spotify API
