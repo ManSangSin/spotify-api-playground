@@ -18,7 +18,7 @@ app.get("/", function(req,res) {
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const redirect_uri = 'http://localhost:3001/callback';
-const master_spotify_playlist_id = "2RoQkVgIhgQmCZadrMoDLd";
+const master_spotify_playlist_id = "7ML1iO1h2gFyjwYUkzcOGK";
 // Spotify API requires client id/secret to be encoded with base64 when requesting for access token
 const client_id_secret_base64 = btoa(`${client_id}:${client_secret}`);
 
