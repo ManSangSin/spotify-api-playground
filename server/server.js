@@ -49,7 +49,7 @@ async function getAccessToken(code, client_id_secret_base64) {
       "Content-Type": "application/x-www-form-urlencoded",
       "Authorization": `Basic ${client_id_secret_base64}`
     },
-    body: `code=${code}&grant_type=client_credentials&client_id=${client_id}&client_secret=${client_secret}`
+    body: `code=${code}&redirect_uri=${redirect_uri}&grant_type=authorization_code`
   });
   const json = await data.json();
   return json.access_token
