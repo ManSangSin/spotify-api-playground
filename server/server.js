@@ -47,6 +47,8 @@ app.get(`/callback`, async function(req, res) {
     deleteSongsURIArray.push(trackObject);
   });
   console.log(deleteSongsURIArray); 
+  const deleteSongsReq = await deleteSongsFromPlaylist(access_token, master_spotify_playlist_id, snapshot_id, deleteSongsURIArray)
+  res.send(deleteSongsReq)
 })
 
 // Fetch call functions to spotify API
