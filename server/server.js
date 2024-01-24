@@ -78,6 +78,22 @@ async function getPlaylistItems(access_token, playlist_id) {
   return json
 }
 
+async function deleteSongsFromPlaylist(access_token, playlist_id, snapshot_id, songsToDelURIArray) {
+  const data = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${access_token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      tracks: songsToDelURIArray,
+      snapshot_id: snapshot_id
+  })
+  });
+  const json = await data.json();
+  return json
+}
+
 // Utility Functions
 
 function generateRandomString(stringLength) {
